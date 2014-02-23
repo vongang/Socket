@@ -1,0 +1,118 @@
+//socket结构体:
+
+struct sockaddr {
+	unsigned shor sa_family; /*地址家族，AF_xxx*/
+    char sa_data[14]; /*14字节协议地址*/
+}
+
+struct sockaddr_in {
+    short int sin_family;   //通信类型，ipv4，ipv6
+    unsigned shor int sin_port; //端口
+    struct in_addr sin_addr;    //地址
+    unsigned char sin_sero[8];  //空白
+};
+
+struct in_addr {
+    unsigned long s_addr;
+};
+
+
+htonl -> "host to network long"
+htons -> "host to network short"
+ntohl -> "network to host long"
+ntohs -> "newwork to host short"
+
+#include <arpa/inet.h>
+
+inet_nta(sk.sin_addr);
+inet_addr("127.0.0.1");
+
+
+#include <sys/types.h>
+#include <sys/socket.h>
+
+int socket(int domain, int type, int protocol);
+/* domain:AF_INET, type: SOCK_STREAM or SOCK_DGRAM 
+    return -1 if false
+    return sockfd if true;
+    错误时返回-1，并设置全局errno
+*/
+
+int bind(int sockfd, struct sockaddr* my_addr, int addrlen);
+
+/*
+错误时返回-1，并设置全局errno
+    
+*/
+
+int connect(int sockfd, struct sockaddr* serv_addr, int addrlen);
+
+int listen(int sockfd, int backlog)
+/*
+    backlog表示最大链接数
+    错误时返回-1，并设置全局errno
+*/
+
+int accept(int sockfd, void* addr, socklen_t* addrlen)
+
+/*
+错误时返回-1，并设置全局errno
+*/
+
+int send(int sockfd, const void * msg, int len, int flags)
+
+/*
+    ？flags一般为0
+    错误时返回-1，并设置全局errno
+*/
+
+int recv(int sockfd, void* buf, int len, unsigned int flags)
+/*
+    
+*/
+
+int sendto(int sockfd, const void *msg, int len, unsigned int flags,  
+　　const struct sockaddr *to, int tolen); 
+　　
+int recvfrom(int sockfd, void *buf, int len, unsigned int flags, 
+    struct sockaddr *from, int *fromlen); 
+    
+#include <netdb.h>
+
+struct hostent {
+    char* h_name;
+    char** h_aliases;
+    int h_addtype;
+    int h_length;
+    char** h_addr_list;
+};
+
+#define h_addr h_addr_list[0]
+
+/*
+
+struct hostent:  
+　　h_name – 地址的正式名称。 
+　　h_aliases – 空字节-地址的预备名称的指针。 
+　　h_addrtype –地址类型; 通常是AF_INET。  
+　　h_length – 地址的比特长度。 
+　　h_addr_list – 零字节-主机网络地址指针。网络字节顺序。 
+　　h_addr - h_addr_list中的第一地址。
+　　
+*/
+
+struct hostent* gethostbyname(const char* name);
+
+/*
+    用法见client.cpp
+*/
+
+
+
+
+
+
+
+
+
+
